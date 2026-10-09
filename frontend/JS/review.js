@@ -243,22 +243,22 @@ async function loadReviews() {
             }
 
             reviewList.innerHTML += `
-                <div class="swiper-slide" style="display: flex; justify-content: center;">
-                    <div class="review-card">
-                        <img src="${coverImg}" alt="${matchedDest || 'Scenic Destination'}" class="review-card-cover" style="width: 100% !important; height: 140px !important; object-fit: cover !important; border-top-left-radius: 2rem !important; border-top-right-radius: 2rem !important; flex-shrink: 0 !important;">
-                        <div class="review-card-body" style="padding: 2rem !important; display: flex !important; flex-direction: column !important; flex: 1 !important; justify-content: space-between !important; overflow: hidden !important;">
+                <div class="swiper-slide" style="display: flex; justify-content: center; height: auto;">
+                    <div class="review-card" style="width: 100%; display: flex; flex-direction: column;">
+                        <img src="${coverImg}" alt="${matchedDest || 'Scenic Destination'}" class="review-card-cover" style="width: 100%; height: 135px; object-fit: cover; border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem; flex-shrink: 0; display: block;">
+                        <div class="review-card-body" style="padding: 1.8rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between; overflow: hidden;">
                             <div>
-                                <div class="review-card-header" style="display: flex !important; align-items: center !important; gap: 1.2rem !important; margin-bottom: 1rem !important;">
+                                <div class="review-card-header" style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1rem;">
                                     ${avatarHTML}
                                     <div>
-                                        <h3 style="font-size: 1.6rem !important; color: #fff !important; font-weight: bold !important; margin: 0 !important; text-transform: none !important;">${review.name}</h3>
-                                        <p class="review-date" style="font-size: 1.1rem !important; color: var(--muted-text) !important; margin: 0.2rem 0 0 0 !important;">📅 ${reviewDate}</p>
+                                        <h3 style="font-size: 1.6rem; color: #fff; font-weight: bold; margin: 0; text-transform: none;">${review.name}</h3>
+                                        <p class="review-date" style="font-size: 1.1rem; color: var(--muted-text); margin: 0.2rem 0 0 0;">📅 ${reviewDate}</p>
                                     </div>
                                 </div>
-                                <div class="stars" style="font-size: 1.3rem !important; color: var(--primary-orange) !important; margin-bottom: 0.8rem !important;">
+                                <div class="stars" style="font-size: 1.3rem; color: var(--primary-orange); margin-bottom: 0.8rem;">
                                     ${stars}
                                 </div>
-                                <p class="review-text" style="font-size: 1.35rem !important; color: var(--light-text) !important; line-height: 1.6 !important; margin-bottom: 1.5rem !important; text-transform: none !important;">
+                                <p class="review-text" style="font-size: 1.35rem; color: var(--light-text); line-height: 1.6; margin-bottom: 1.5rem; text-transform: none;">
                                     ${textHTML}
                                 </p>
                             </div>
@@ -277,14 +277,15 @@ async function loadReviews() {
         }
 
         window.reviewSwiper = new Swiper(".review-slider", {
-            spaceBetween: 25,
-            loop: reviews.length > 3,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: reviews.length >= 6,
             grabCursor: true,
-            autoplay: {
-                delay: 3000,
+            autoplay: reviews.length > 1 ? {
+                delay: 3500,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true
-            },
+            } : false,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
@@ -292,11 +293,14 @@ async function loadReviews() {
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
+                dynamicBullets: true,
             },
             breakpoints: {
-                640: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 }
+                0: { slidesPerView: 1, spaceBetween: 15 },
+                600: { slidesPerView: 1, spaceBetween: 20 },
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 25 },
+                1400: { slidesPerView: 3, spaceBetween: 30 }
             }
         });
 
