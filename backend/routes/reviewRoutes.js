@@ -2,13 +2,13 @@ const express = require("express");
 
 const router = express.Router();
 
-const verifyToken =
-require("../middleware/authMiddleware");
+const verifyToken = require("../middleware/authMiddleware");
 
 const {
     addReview,
     getAllReviews,
-    deleteReview
+    deleteReview,
+    updateReview
 } = require("../controllers/reviewController");
 
 // Add Review
@@ -22,6 +22,13 @@ router.post(
 router.get(
     "/all",
     getAllReviews
+);
+
+// Update Review
+router.put(
+    "/update/:id",
+    verifyToken,
+    updateReview
 );
 
 // Delete Reviews

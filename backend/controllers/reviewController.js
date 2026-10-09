@@ -136,8 +136,55 @@ const deleteReview = (req, res) => {
 
 };
 
+// Update Review
+const updateReview = (req, res) => {
+    const review_id = req.params.id;
+    const user_id = req.user.id;
+    const { rating, review_text } = req.body || {};
+
+    if (!rating || !review_text) {
+        return res.status(400).json({
+            success: false,
+            message: "Rating and review text are required"
+        });
+    }
+
+    const query = `
+        UPDATE reviews
+        SET rating = ?, review_text = ?
+        WHERE review_id = ? AND user_id = ?
+    `;
+
+    db.query(
+        query,
+        [rating, review_text, review_id, user_id],
+        (err, result) => {
+            if (err) {
+                console.error("Update Review Error:", err);
+                return res.status(500).json({
+                    success: false,
+                    message: "Review Update Failed"
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Review Not Found or Unauthorized"
+                });
+            }
+
+            res.status(200).json({
+                success: true,
+                message: "Review Updated Successfully"
+            });
+        }
+    );
+};
+
 module.exports = {
     addReview,
     getAllReviews,
-    deleteReview
+    deleteReview,
+    updateReview
 };

@@ -59,6 +59,33 @@ const createContact = (req, res) => {
 
 };
 
+const getUserContacts = (req, res) => {
+    const user_id = req.user.id;
+
+    const query = `
+        SELECT contact_id, user_id, name, email, subject, message, contact_time, reply_status, admin_reply
+        FROM contacts
+        WHERE user_id = ?
+        ORDER BY contact_time DESC
+    `;
+
+    db.query(query, [user_id], (err, results) => {
+        if (err) {
+            console.error("Fetch Contacts Error:", err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to fetch contact messages"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            contacts: results
+        });
+    });
+};
+
 module.exports = {
-    createContact
+    createContact,
+    getUserContacts
 };

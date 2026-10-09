@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avant-Garde Journeys | Premium Tour & Travel Agency</title>
+    
+    <!-- Google Fonts: Outfit & Nunito for sleek, premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 for modern UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Leaflet.js Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="Mini_CSS.css">
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header id="main-header">
+        <div id="menu-bar" class="fas fa-bars" aria-label="Toggle Mobile Menu"></div>
+
+        <a href="#home" class="logo">
+            <span class="orange-t">T</span>ravel<span class="dot">.</span>
+        </a>
+
+        <nav class="navbar" id="navbar">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#book" class="nav-link">Book</a>
+            <a href="#packages" class="nav-link">Itineraries</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
+            <a href="#review" class="nav-link">Reviews</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="icons">
+            <span id="user-display"></span>
+            <i class="fas fa-search" id="search-btn" title="Toggle Search Bar"></i>
+            
+            <!-- Notifications Bell Icon -->
+            <div class="notifications-container" style="position: relative; display: inline-block; cursor: pointer; margin-right: 1rem;">
+                <i class="fas fa-bell" id="notification-bell-btn" title="Notifications" onclick="toggleNotificationsMenu(event)"></i>
+                <span class="notification-badge" id="global-notif-badge" style="display: block; position: absolute; top: -5px; right: -5px; background: var(--primary-orange); width: 1.6rem; height: 1.6rem; border-radius: 50%; color: #fff; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1.5px solid var(--charcoal-medium);">3</span>
+                
+                <!-- Notifications Dropdown -->
+                <div class="dropdown-menu" id="notifications-dropdown-menu" style="right: 0; width: 30rem; max-height: 40rem; overflow-y: auto; top: 130%;">
+                    <div class="dropdown-header">
+                        <h4 style="color:#fff;"><i class="fas fa-bell text-orange"></i> Notifications</h4>
+                    </div>
+                    <ul class="dropdown-links" id="notifications-list" style="padding: 1rem; list-style: none;">
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <p style="font-size:1.3rem; color:#fff; font-weight:bold;">Welcome to Avant-Garde Journeys!</p>
+                            <p style="font-size:1.1rem; color:var(--muted-text); text-transform:none;">Explore premium destinations and plan itineraries.</p>
+                            <small style="color:var(--primary-orange); font-size:1rem;">Just now</small>
+                        </li>
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <p style="font-size:1.3rem; color:#fff; font-weight:bold;">50% Discount Active!</p>
+                            <p style="font-size:1.1rem; color:var(--muted-text); text-transform:none;">Book any handcrafted package today and save big.</p>
+                            <small style="color:var(--primary-orange); font-size:1rem;">1 hour ago</small>
+                        </li>
+                        <li style="padding-bottom: 0.5rem;">
+                            <p style="font-size:1.3rem; color:#fff; font-weight:bold;">Aura AI Assistant Updated</p>
+                            <p style="font-size:1.1rem; color:var(--muted-text); text-transform:none;">Chat with Aura for smart local hotel recommendations.</p>
+                            <small style="color:var(--primary-orange); font-size:1rem;">2 hours ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <i class="fas fa-user" id="login-btn" title="User Login Profile"></i>
+            
+            <!-- Authenticated Profile Dropdown -->
+            <div class="profile-dropdown-container" id="profile-section" style="display: none;">
+                <div class="profile-trigger" id="profile-trigger">
+                    <div class="profile-avatar-wrapper">
+                        <div class="profile-avatar" id="profile-avatar-icon">U</div>
+                        <span class="notification-badge" style="background: var(--primary-orange);"></span>
+                    </div>
+                    <span class="profile-name" id="profile-name-display">User</span>
+                    <i class="fas fa-chevron-down profile-chevron"></i>
+                </div>
+                
+                <div class="dropdown-menu" id="profile-menu" style="top: 130%;">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar" id="dropdown-avatar-icon">U</div>
+                        <div class="dropdown-user-info">
+                            <h4 id="dropdown-name">User</h4>
+                            <p id="dropdown-email">user@example.com</p>
+                        </div>
+                    </div>
+                    <ul class="dropdown-links">
+                        <li><a href="#" onclick="openUserDashboard('my-profile'); return false;"><i class="fas fa-user-circle"></i> My Profile</a></li>
+                        <li><a href="#" onclick="openUserDashboard('my-bookings'); return false;"><i class="fas fa-suitcase-rolling"></i> My Bookings</a></li>
+                        <li><a href="#" onclick="openUserDashboard('my-itineraries'); return false;"><i class="fas fa-map-marked-alt"></i> My AI Itineraries</a></li>
+                        <li><a href="#" onclick="openUserDashboard('my-reviews'); return false;"><i class="fas fa-star"></i> My Reviews</a></li>
+                        <li><a href="#" onclick="openUserDashboard('my-contacts'); return false;"><i class="fas fa-envelope"></i> My Contacts</a></li>
+                        <li><a href="#" onclick="toggleNotificationsMenu(event); return false;"><i class="fas fa-bell"></i> Notifications <span class="badge" style="background:var(--primary-orange); color:#fff; padding:0.2rem 0.6rem; border-radius:50px; font-size:1rem; margin-left:0.5rem;">3</span></a></li>
+                        <li><a href="#" onclick="logoutUser(); return false;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sliding Search Bar -->
+        <form id="search-form" class="search-bar-container" onsubmit="event.preventDefault();">
+            <input type="search" id="search-bar" placeholder="Where do you want to explore? Search here...">
+            <label for="search-bar" class="fas fa-search" id="search-bar-icon"></label>
+        </form>
+    </header>
+
+    <!-- Drop-down Modal Login & Register Interface -->
+    <div class="login-form-container login-from-container" id="login-modal">
+        <i class="fas fa-times" id="form-close" aria-label="Close Auth Modal"></i>
+
+        <div class="auth-box">
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tab-login">Sign In</button>
+                <button class="tab-btn" id="tab-register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-content active">
+                <h3>Welcome Back</h3>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" class="box" placeholder="Enter your email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" class="box" placeholder="Enter your password" required>
+                </div>
+                <div class="remember-forget">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <p style="font-size:1.3rem; margin:0;"><a href="#" id="show-register" style="color:var(--primary-orange);">Create Account</a></p>
+                </div>
+                <button type="submit" class="btn block-btn">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-content">
+                <h3>Create Account</h3>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="register-name" class="box" placeholder="Full Name" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="register-email" class="box" placeholder="Email Address" required>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="register-password" class="box" placeholder="Create Password" required>
+                </div>
+                <div class="remember-forget" style="justify-content: flex-end;">
+                    <p style="font-size:1.3rem; margin:0;"><a href="#" id="show-login" style="color:var(--primary-orange);">Sign In Instead</a></p>
+                </div>
+                <button type="submit" class="btn block-btn" id="register-btn">Register Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Home Hero Section with Loop Background Video Slider -->
+    <section class="home" id="home">
+        <div class="content content-overlay">
+            <span class="badge">ELEGANT ESCAPES</span>
+            <h3>Adventure is Worthwhile</h3>
+            <p>Discover breathtaking destinations, curated timelines, and premium travel packages tailored just for you.</p>
+            <a href="#book" class="btn pulse-effect">Plan Your Journey</a>
+        </div>
+
+        <div class="controls" id="hero-slider-controls">
+            <span class="vid-btn active" data-src="Mini-Images/h_11.mp4" title="Scenic Coastline"></span>
+            <span class="vid-btn" data-src="Mini-Images/h_22.mp4" title="Serene Mountains"></span>
+            <span class="vid-btn" data-src="Mini-Images/h_33.mp4" title="Lush Tea Estates"></span>
+            <span class="vid-btn" data-src="Mini-Images/h_44.mp4" title="Vast Deserts"></span>
+            <span class="vid-btn" data-src="Mini-Images/h_55.mp4" title="Bustling Cityscapes"></span>
+        </div>
+
+        <div class="video-container">
+            <video src="Mini-Images/h_11.mp4" id="video-slider" loop autoplay muted playsinline></video>
+        </div>
+    </section>
+
+    <!-- Book Section with Split-Column Planner Module -->
+    <section class="book" id="book">
+        <h1 class="heading">
+            <span>b</span>
+            <span>o</span>
+            <span>o</span>
+            <span>k</span>
+            <span class="space"></span>
+            <span>n</span>
+            <span>o</span>
+            <span>w</span>
+        </h1>
+
+        <div class="row split-container">
+            <!-- Left Column: Visual Showcase -->
+            <div class="image-column">
+                <img src="Mini-Images/Book_section.jpeg" alt="Scenic Travel Backdrop" class="planner-image">
+                <div class="glass-float-card">
+                    <i class="fas fa-passport orange-text"></i>
+                    <div>
+                        <h4>Instant Planner</h4>
+                        <p>Generate itineraries & explore live interactive maps</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Booking Planner Form -->
+            <div class="form-column">
+                <form id="booking-form">
+                    <div class="form-header">
+                        <h3>Itinerary Planner</h3>
+                        <p>Plan your luxury getaway with real-time costs and itinerary exports</p>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-plane-departure"></i> Source</h3>
+                            <input type="text" id="source-input" placeholder="City (e.g. Delhi)" required>
+                        </div>
+
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-map-marker-alt"></i> Destination</h3>
+                            <input type="text" id="place_name" placeholder="City (e.g. Goa)" required>
+                        </div>
+                    </div>
+                   
+                    <div class="inputBox">
+                        <h3><i class="fas fa-users"></i> Guests / Members</h3>
+                        <input type="number" id="guests" placeholder="Number of travelers" min="1" max="100" required>
+                    </div>  
+
+                    <div class="input-row">
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-wallet"></i> Budget Profile</h3>
+                            <select id="budget-select" required style="width:100%; padding:1.4rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                <option value="budget">Budget-Friendly (Standard)</option>
+                                <option value="midrange" selected>Mid-Range (Premium)</option>
+                                <option value="luxury">Luxury (Ultra / 5-Star)</option>
+                            </select>
+                        </div>
+
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-hiking"></i> Travel Type</h3>
+                            <select id="traveltype-select" required style="width:100%; padding:1.4rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                <option value="Solo">Solo Explorer</option>
+                                <option value="Couple" selected>Couple Getaway</option>
+                                <option value="Family">Family Holiday</option>
+                                <option value="Friends">Friends Adventure</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-calendar-alt"></i> Arrivals</h3>
+                            <input type="date" id="arrival_date" required>
+                        </div>
+
+                        <div class="inputBox half-width">
+                            <h3><i class="fas fa-calendar-check"></i> Leaving</h3>
+                            <input type="date" id="leaving_date" required>
+                        </div>  
+                    </div>
+
+                    <input type="submit" class="btn planner-submit-btn" value="Generate Dynamic Itinerary">
+                </form>
+            </div>
+        </div>
+
+        <!-- Dynamic Timeline, Interactive Map & Quotation Results -->
+        <div id="itinerary-results" class="results-container hidden-section">
+            <div class="results-card">
+                <div class="results-header">
+                    <div class="destination-badge">
+                        <i class="fas fa-route"></i>
+                        <span id="res-route">Source to Destination</span>
+                    </div>
+                    <div class="invoice-summary">
+                        <div class="stat-item">
+                            <span class="stat-label">Duration</span>
+                            <span class="stat-val" id="res-days">0 Days</span>
+                        </div>
+                        <div class="stat-item border-left">
+                            <span class="stat-label">Travelers</span>
+                            <span class="stat-val" id="res-members">0 Members</span>
+                        </div>
+                        <div class="stat-item border-left highlighted">
+                            <span class="stat-label">Est. Cost (Total)</span>
+                            <span class="stat-val" id="res-price">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions" style="display: flex; gap: 1.5rem; justify-content: flex-end; margin-bottom: 2rem;">
+                    <button type="button" onclick="window.print()" class="btn btn-secondary" style="padding: 1.2rem 2.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button type="button" onclick="window.print()" class="btn" style="padding: 1.2rem 2.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--primary-orange); color: #000; font-weight: bold; border: none; display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2);">
+                        <i class="fas fa-print"></i> Print Itinerary
+                    </button>
+                </div>
+
+                <!-- Split layout for Map and Timeline -->
+                <div class="results-body">
+                    <!-- Vertical Styled Day-wise Itinerary Cards -->
+                    <div class="timeline-wrapper">
+                        <div class="timeline-line"></div>
+                        <div id="timeline-container" class="timeline-container">
+                            <!-- Dynamically generated Day-wise cards go here -->
+                        </div>
+                    </div>
+
+                    <!-- Live Interactive Leaflet Map & Right Side Details Panel -->
+                    <div class="map-wrapper" style="flex: 1; display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="glass-card" style="padding: 0.5rem; overflow: hidden; border-radius: 1.2rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <div class="map-header" style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: bold; font-family: var(--font-heading); font-size: 1.6rem; display: flex; align-items: center; gap: 1rem; color: #fff;">
+                                <i class="fas fa-map-marked-alt orange-text"></i> Live Destination Map & Routes
+                            </div>
+                            <div id="leaflet-map-container" class="leaflet-map-container" style="height: 30rem; border-radius: 0.8rem; z-index: 1;"></div>
+                        </div>
+
+                        <!-- Estimated Budget & Stats Card -->
+                        <div class="glass-card" style="padding: 2.5rem; border-radius: 1.2rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;"><i class="fas fa-wallet orange-text"></i> Price Breakup & Budget Profile</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 1.4rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--muted-text);">Selected Tier:</span>
+                                    <strong id="panel-budget-tier" style="color: var(--primary-orange); text-transform: uppercase;">Mid-Range</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--muted-text);">Daily Rate (per member):</span>
+                                    <strong id="panel-daily-rate" style="color:#fff;">₹3,500</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--muted-text);">Attraction Counts:</span>
+                                    <strong id="panel-attractions-count" style="color: #2ed573;">8 Visited Sites</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hotel Suggestions -->
+                        <div class="glass-card" style="padding: 2.5rem; border-radius: 1.2rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;"><i class="fas fa-hotel orange-text"></i> Recommended Stays</h3>
+                            <div id="panel-hotel-suggestions" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                <!-- Dynamically updated -->
+                            </div>
+                        </div>
+
+                        <!-- Travel Tips -->
+                        <div class="glass-card" style="padding: 2.5rem; border-radius: 1.2rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;"><i class="fas fa-lightbulb orange-text"></i> Essential Travel Tips</h3>
+                            <ul id="panel-travel-tips" style="list-style: none; display: flex; flex-direction: column; gap: 1rem; font-size: 1.3rem; color: var(--muted-text); padding: 0;">
+                                <!-- Dynamically updated -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="packages" id="packages">
+        <h1 class="heading">
+            <span>p</span>
+            <span>a</span>
+            <span>c</span>
+            <span>k</span>
+            <span>a</span>
+            <span>g</span>
+            <span>e</span>
+            <span>s</span>
+        </h1>
+
+        <!-- Premium Package Search & Filter System Bar -->
+        <div class="glass-card" style="padding: 2.5rem 3rem; margin-bottom: 4rem; border-radius: 1.5rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 2rem;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; width: 100%;">
+                <!-- Destination search -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 20rem; flex: 1;">
+                    <label style="font-size: 1.2rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-map-marker-alt orange-text"></i> Search Destination</label>
+                    <input type="text" id="pkg-filter-dest" placeholder="e.g. Goa, Ladakh..." style="padding: 1.2rem 1.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-deep); color: #fff; border: 1px solid var(--charcoal-light);">
+                </div>
+                <!-- Budget Filter -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 15rem;">
+                    <label style="font-size: 1.2rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-wallet orange-text"></i> Max Budget</label>
+                    <select id="pkg-filter-budget" style="padding: 1.2rem 1.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-deep); color: #fff; border: 1px solid var(--charcoal-light);">
+                        <option value="all">All Budgets</option>
+                        <option value="7000">Under ₹7,000</option>
+                        <option value="10000">Under ₹10,000</option>
+                        <option value="15000">Under ₹15,000</option>
+                    </select>
+                </div>
+                <!-- Duration Filter -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 15rem;">
+                    <label style="font-size: 1.2rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-clock orange-text"></i> Duration</label>
+                    <select id="pkg-filter-duration" style="padding: 1.2rem 1.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-deep); color: #fff; border: 1px solid var(--charcoal-light);">
+                        <option value="all">All Durations</option>
+                        <option value="4">4 Days</option>
+                        <option value="5">5 Days</option>
+                        <option value="6">6 Days</option>
+                        <option value="7">7 Days</option>
+                    </select>
+                </div>
+                <!-- Category Filter -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 15rem;">
+                    <label style="font-size: 1.2rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-hiking orange-text"></i> Category</label>
+                    <select id="pkg-filter-type" style="padding: 1.2rem 1.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-deep); color: #fff; border: 1px solid var(--charcoal-light);">
+                        <option value="all">All Categories</option>
+                        <option value="beach">Beach & Coastal</option>
+                        <option value="adventure">Alpine & Adventure</option>
+                        <option value="heritage">Royal & Heritage</option>
+                        <option value="nature">Nature & Eco</option>
+                    </select>
+                </div>
+                <!-- Travel Type Filter -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 15rem;">
+                    <label style="font-size: 1.2rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-users orange-text"></i> Travel Type</label>
+                    <select id="pkg-filter-traveltype" style="padding: 1.2rem 1.5rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-deep); color: #fff; border: 1px solid var(--charcoal-light);">
+                        <option value="all">All Types</option>
+                        <option value="Solo">Solo</option>
+                        <option value="Couple">Couple</option>
+                        <option value="Family">Family</option>
+                        <option value="Friends">Friends</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem;">
+                <span id="packages-count-badge" style="background: var(--primary-orange); color: #fff; padding: 0.8rem 2rem; border-radius: 50px; font-size: 1.4rem; font-weight: bold; font-family: var(--font-heading); box-shadow: 0 4px 10px var(--primary-orange-glow);">6 Packages Found</span>
+                <div style="display: flex; gap: 1.5rem;">
+                    <button onclick="filterPackages()" class="btn-micro" style="width: auto; padding: 1.2rem 2.5rem; border-radius: 0.8rem; background: var(--primary-orange); color: #000; font-weight: bold; border: none; margin: 0; cursor: pointer; transition: all 0.3s ease;"><i class="fas fa-filter"></i> Apply Filters</button>
+                    <button onclick="resetPackageFilters()" class="btn-micro" style="width: auto; padding: 1.2rem 2.5rem; border-radius: 0.8rem; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15); margin: 0; cursor: pointer; transition: all 0.3s ease;"><i class="fas fa-undo"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-container" id="packages-grid-container">
+            <!-- Card 1 -->
+            <div class="box card-premium" data-dest="Goa" data-price="6999" data-duration="5" data-category="beach" data-traveltype="Solo,Couple,Friends">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_1.jpeg" alt="Sunset beach of Goa">
+                    <span class="price-tag">₹6,999<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Goa</h3>
+                    <p>Enjoy vibrant beaches, thrilling water sports, and lively nightlife across popular spots like Baga and Calangute.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹10,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Goa')">Book This Package</a>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="box card-premium" data-dest="Manali" data-price="7999" data-duration="6" data-category="adventure" data-traveltype="Solo,Couple,Family,Friends">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_2.jpeg" alt="Snow mountains of Manali">
+                    <span class="price-tag">₹7,999<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Manali</h3>
+                    <p>Explore snowy mountains, Solang Valley adventures, and scenic views around Rohtang Pass.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹12,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Manali')">Book This Package</a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="box card-premium" data-dest="Jaipur" data-price="5999" data-duration="4" data-category="heritage" data-traveltype="Solo,Family">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_3.jpeg" alt="Hawa Mahal Jaipur">
+                    <span class="price-tag">₹5,999<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Jaipur</h3>
+                    <p>Visit iconic spots like Hawa Mahal, Amber Fort, and vibrant local markets. Experience royal heritage.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹10,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Jaipur')">Book This Package</a>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="box card-premium" data-dest="Andaman" data-price="14999" data-duration="7" data-category="beach" data-traveltype="Couple,Family,Friends">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_4.jpeg" alt="Radhanagar Beach Andaman">
+                    <span class="price-tag">₹14,999<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Andaman</h3>
+                    <p>Relax at Radhanagar Beach and explore Havelock Island with exciting water activities and tropical escapes.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹18,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Andaman and Nicobar Islands')">Book This Package</a>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="box card-premium" data-dest="Munnar" data-price="6499" data-duration="5" data-category="nature" data-traveltype="Solo,Couple,Family">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_5.jpeg" alt="Tea Gardens Munnar">
+                    <span class="price-tag">₹6,499<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Munnar</h3>
+                    <p>Walk through lush tea plantations and enjoy cool weather with scenic viewpoints for an eco-friendly getaway.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹10,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Munnar')">Book This Package</a>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="box card-premium" data-dest="Ladakh" data-price="12999" data-duration="7" data-category="adventure" data-traveltype="Solo,Friends">
+                <div class="image-wrapper">
+                    <img src="Mini-Images/p_6.jpeg" alt="Mountain Pass Ladakh">
+                    <span class="price-tag">₹12,999<span>/person</span></span>
+                </div>
+                <div class="content">
+                    <h3><i class="fas fa-map-marker-alt"></i> Ladakh</h3>
+                    <p>Visit Pangong Lake, high-altitude monasteries, and enjoy thrilling road trips seeking rugged terrains.</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <div class="price-compare">Regular Price: <span class="strikethrough">₹17,000</span></div>
+                    <a href="#book" class="btn package-btn" onclick="fillBooking('Ladakh')">Book This Package</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h1 class="heading">
+            <span>s</span>
+            <span>e</span>
+            <span>r</span>
+            <span>v</span>
+            <span>i</span>
+            <span>c</span>
+            <span>e</span>
+            <span>s</span>
+        </h1>
+
+        <div class="box-container">
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-hotel"></i></div>
+                <h3>Affordable Hotels</h3>
+                <p>Relax in handpicked highly rated boutique hotels offering exceptional comfort at exclusive discounted agency rates.</p>
+            </div>
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-utensils"></i></div>
+                <h3>Food & Drinks</h3>
+                <p>Savor rich gourmet meals, exquisite local delicacies, and fully-inclusive buffet options curated across your tours.</p>
+            </div>
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-bullhorn"></i></div>
+                <h3>Safety Guide</h3>
+                <p>Travel with total peace of mind with 24/7 on-call customer assistance and professional certified local guides.</p>
+            </div>
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-globe-asia"></i></div>
+                <h3>Around the World</h3>
+                <p>Boundless global packages covering iconic landmarks, hidden wonders, and remote nature spots on multiple continents.</p>
+            </div>
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-plane"></i></div>
+                <h3>Fastest Travel</h3>
+                <p>Express check-ins, optimized flight connections, and premium direct executive transfers minimizing transit drag.</p>
+            </div>
+            <div class="box glass-card">
+                <div class="icon-circle"><i class="fas fa-hiking"></i></div>
+                <h3>Trek Adventures</h3>
+                <p>Scale challenging mountain summits, cycle across desert dunes, and kayak rapids under expert guide networks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section (Masonry Grid with Multi-Option Explore Overlays) -->
+    <section class="gallery" id="gallery">
+        <h1 class="heading">
+            <span>g</span>
+            <span>a</span>
+            <span>l</span>
+            <span>l</span>
+            <span>e</span>
+            <span>r</span>
+            <span>y</span>
+        </h1>
+
+        <div class="gallery-grid">
+            <!-- Box 1 -->
+            <div class="box">
+                <img src="Mini-Images/g_1.jpeg" alt="Mountain Lake Reflection">
+                <div class="content">
+                    <h3>Pristine Lakes</h3>
+                    <p>Experience silent reflections on undisturbed crystal lakes of the high Himalayas.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <!-- Multi-option overlay -->
+                    <div class="explore-overlay">
+                        <h4>Explore Pristine Lakes</h4>
+                        <button onclick="fillBooking('Ladakh')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding luxury lakeside stays...')" class="btn-micro"><i class="fas fa-hotel"></i> Local Luxury Stays</button>
+                        <button onclick="triggerFlash('Connecting with certified Sherpas...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Himalayan Trek Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="box">
+                <img src="Mini-Images/g_2.jpeg" alt="Hanging Bridge Walk">
+                <div class="content">
+                    <h3>Suspended Gorges</h3>
+                    <p>Defy heights walking across stunning valley suspension bridge passes.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <!-- Multi-option overlay -->
+                    <div class="explore-overlay">
+                        <h4>Explore Gorges</h4>
+                        <button onclick="fillBooking('Manali')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding cliff-side resorts...')" class="btn-micro"><i class="fas fa-hotel"></i> Local Luxury Stays</button>
+                        <button onclick="triggerFlash('Connecting with adventure guides...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Suspended Bridge Tour Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="box">
+                <img src="Mini-Images/g_3.jpeg" alt="Ancient Monument Sculptures">
+                <div class="content">
+                    <h3>Historic Citadels</h3>
+                    <p>Trace heritage timelines across marvelously preserved ancient palace columns.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <!-- Multi-option overlay -->
+                    <div class="explore-overlay">
+                        <h4>Explore History</h4>
+                        <button onclick="fillBooking('Jaipur')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding heritage mansions...')" class="btn-micro"><i class="fas fa-hotel"></i> Heritage Stays</button>
+                        <button onclick="triggerFlash('Connecting with historic scholars...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Historic Citadel Tour Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 4 -->
+            <div class="box">
+                <img src="Mini-Images/g_4.jpeg" alt="Dense Jungle Camp">
+                <div class="content">
+                    <h3>Hidden Canopies</h3>
+                    <p>Overnight camping under bioluminescent jungle canopies with safari escorts.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Jungle Safari</h4>
+                        <button onclick="fillBooking('Munnar')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding eco-campsites...')" class="btn-micro"><i class="fas fa-hotel"></i> Glamping Stays</button>
+                        <button onclick="triggerFlash('Connecting with wildlife rangers...')" class="btn-micro"><i class="fas fa-users"></i> Jungle Guides</button>
+                        <button onclick="requestCustom('Safari Camp Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 5 -->
+            <div class="box">
+                <img src="Mini-Images/g_5.jpeg" alt="Coastal Palm Shore">
+                <div class="content">
+                    <h3>Azure Horizons</h3>
+                    <p>Swaying coconut groves framing pure turquoise oceanic shorelines.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Coasts</h4>
+                        <button onclick="fillBooking('Andaman and Nicobar Islands')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding beachside cabanas...')" class="btn-micro"><i class="fas fa-hotel"></i> Beach Stays</button>
+                        <button onclick="triggerFlash('Connecting with scuba masters...')" class="btn-micro"><i class="fas fa-users"></i> Water Sports Guides</button>
+                        <button onclick="requestCustom('Coastal Horizon Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 6 -->
+            <div class="box">
+                <img src="Mini-Images/g_6.jpeg" alt="Night Fire Camping">
+                <div class="content">
+                    <h3>Bonfire Glamping</h3>
+                    <p>Warm starry nights around crackling embers in exclusive alpine campsites.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Alpine Nights</h4>
+                        <button onclick="fillBooking('Manali')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding luxury tents...')" class="btn-micro"><i class="fas fa-hotel"></i> Alpine Tents</button>
+                        <button onclick="triggerFlash('Connecting with camp chiefs...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Bonfire Retreat Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 7 -->
+            <div class="box">
+                <img src="Mini-Images/g_7.jpeg" alt="Historic Fort Lookout">
+                <div class="content">
+                    <h3>Mogul Splendor</h3>
+                    <p>Gaze out over fort walls rich with centuries of historical stories.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Royal Splendor</h4>
+                        <button onclick="fillBooking('Jaipur')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding royal palace stays...')" class="btn-micro"><i class="fas fa-hotel"></i> Palace Stays</button>
+                        <button onclick="triggerFlash('Connecting with royal historians...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Mogul Fort Tour Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 8 -->
+            <div class="box">
+                <img src="Mini-Images/g_8.jpeg" alt="Snow Peak Trekking">
+                <div class="content">
+                    <h3>Summit Conquests</h3>
+                    <p>Snowshoe across deep sub-zero glaciers to conquer remote peaks.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Summits</h4>
+                        <button onclick="fillBooking('Ladakh')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding heated chalets...')" class="btn-micro"><i class="fas fa-hotel"></i> Chalet Stays</button>
+                        <button onclick="triggerFlash('Connecting with mountaineers...')" class="btn-micro"><i class="fas fa-users"></i> Mountaineers</button>
+                        <button onclick="requestCustom('Glacier Summit Trek Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 9 -->
+            <div class="box">
+                <img src="Mini-Images/g_9.jpeg" alt="Dune Camel Safari">
+                <div class="content">
+                    <h3>Golden Dunes</h3>
+                    <p>Vibrant silk-route safaris watching the sun dip into undulating desert sand.</p>
+                    <button class="btn gallery-btn" onclick="toggleGalleryOptions(this)">Explore Now</button>
+                    <div class="explore-overlay">
+                        <h4>Explore Desert Safari</h4>
+                        <button onclick="fillBooking('Jaipur')" class="btn-micro"><i class="fas fa-map-marked-alt"></i> Quick Plan Itinerary</button>
+                        <button onclick="triggerFlash('Finding dune resorts...')" class="btn-micro"><i class="fas fa-hotel"></i> Oasis Stays</button>
+                        <button onclick="triggerFlash('Connecting with camel navigators...')" class="btn-micro"><i class="fas fa-users"></i> Local Guides</button>
+                        <button onclick="requestCustom('Dune Safari Trip Enquiry')" class="btn-micro"><i class="fas fa-envelope"></i> Custom Request</button>
+                        <i class="fas fa-times close-overlay" onclick="toggleGalleryOptions(this.parentElement.parentElement)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section (Testimonials Horizontal Slider & Live Stats Card) -->
+    <section class="review" id="review">
+        <h1 class="heading">
+            <span>r</span>
+            <span>e</span>
+            <span>v</span>
+            <span>i</span>
+            <span>e</span>
+            <span>w</span>
+        </h1>
+
+        <!-- Reviews Layout Header -->
+        <div class="reviews-header-layout">
+            <!-- Left Side: Real-time Stats -->
+            <div class="reviews-stats-card glass-card" style="padding: 2.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; flex: 1.2;">
+                <div style="text-align: center; flex: 1; min-width: 12rem;">
+                    <h2 id="review-stat-avg" style="font-size: 5.5rem; color: var(--primary-orange); font-weight: bold; margin-bottom: 0.5rem; font-family: var(--font-heading); line-height: 1;">4.8</h2>
+                    <div id="review-stat-stars" style="color: var(--primary-orange); font-size: 1.8rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p id="review-stat-total" style="font-size: 1.3rem; color: var(--muted-text);">Based on 24 Reviews</p>
+                </div>
+                
+                <div style="flex: 2; min-width: 20rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                    <!-- 5 Stars Bar -->
+                    <div style="display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; color: var(--light-text);">
+                        <span style="width: 5rem; text-align: left;">5 Stars</span>
+                        <div style="flex: 1; height: 0.8rem; background: rgba(255,255,255,0.08); border-radius: 1rem; overflow: hidden; position: relative;">
+                            <div id="bar-5-star" style="width: 85%; height: 100%; background: var(--primary-orange); border-radius: 1rem; position: absolute; left: 0; top: 0;"></div>
+                        </div>
+                        <span id="percent-5-star" style="width: 3.5rem; text-align: right;">85%</span>
+                    </div>
+                    <!-- 4 Stars Bar -->
+                    <div style="display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; color: var(--light-text);">
+                        <span style="width: 5rem; text-align: left;">4 Stars</span>
+                        <div style="flex: 1; height: 0.8rem; background: rgba(255,255,255,0.08); border-radius: 1rem; overflow: hidden; position: relative;">
+                            <div id="bar-4-star" style="width: 10%; height: 100%; background: var(--primary-orange); border-radius: 1rem; position: absolute; left: 0; top: 0;"></div>
+                        </div>
+                        <span id="percent-4-star" style="width: 3.5rem; text-align: right;">10%</span>
+                    </div>
+                    <!-- 3 Stars Bar -->
+                    <div style="display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; color: var(--light-text);">
+                        <span style="width: 5rem; text-align: left;">3 Stars</span>
+                        <div style="flex: 1; height: 0.8rem; background: rgba(255,255,255,0.08); border-radius: 1rem; overflow: hidden; position: relative;">
+                            <div id="bar-3-star" style="width: 3%; height: 100%; background: var(--primary-orange); border-radius: 1rem; position: absolute; left: 0; top: 0;"></div>
+                        </div>
+                        <span id="percent-3-star" style="width: 3.5rem; text-align: right;">3%</span>
+                    </div>
+                    <!-- 2 Stars Bar -->
+                    <div style="display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; color: var(--light-text);">
+                        <span style="width: 5rem; text-align: left;">2 Stars</span>
+                        <div style="flex: 1; height: 0.8rem; background: rgba(255,255,255,0.08); border-radius: 1rem; overflow: hidden; position: relative;">
+                            <div id="bar-2-star" style="width: 1%; height: 100%; background: var(--primary-orange); border-radius: 1rem; position: absolute; left: 0; top: 0;"></div>
+                        </div>
+                        <span id="percent-2-star" style="width: 3.5rem; text-align: right;">1%</span>
+                    </div>
+                    <!-- 1 Star Bar -->
+                    <div style="display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; color: var(--light-text);">
+                        <span style="width: 5rem; text-align: left;">1 Star</span>
+                        <div style="flex: 1; height: 0.8rem; background: rgba(255,255,255,0.08); border-radius: 1rem; overflow: hidden; position: relative;">
+                            <div id="bar-1-star" style="width: 1%; height: 100%; background: var(--primary-orange); border-radius: 1rem; position: absolute; left: 0; top: 0;"></div>
+                        </div>
+                        <span id="percent-1-star" style="width: 3.5rem; text-align: right;">1%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side: Call to Actions and Sorting -->
+            <div style="display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; flex: 1;">
+                <h3 style="font-size: 2.2rem; color: #fff; line-height: 1.5; font-family: var(--font-heading); text-transform: none;">Hear from our luxury travelers or share your own memorable journey with our community.</h3>
+                
+                <div style="display: flex; gap: 2rem; align-items: center; width: 100%; flex-wrap: wrap;">
+                    <button class="btn" onclick="openAddReviewModal()" style="margin: 0;"><i class="fas fa-plus"></i> Add Review</button>
+                    
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <label style="font-size: 1.4rem; color: var(--muted-text); font-weight: bold;"><i class="fas fa-sort orange-text"></i> Sort:</label>
+                        <select id="review-sort-select" onchange="loadReviews()" style="padding: 1.2rem 1.8rem; font-size: 1.4rem; border-radius: 0.8rem; background: var(--charcoal-medium); color: #fff; border: 1px solid var(--charcoal-light); cursor: pointer;">
+                            <option value="newest" selected>Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="rating-high">Highest Rating</option>
+                            <option value="rating-low">Lowest Rating</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horizontal review Slider Carousel -->
+        <div class="swiper review-slider" style="position: relative; padding: 2rem 5% 5rem !important;">
+            <div id="review-list" class="swiper-wrapper" style="margin-bottom: 2rem;">
+                <!-- Dynamically generated slides go here -->
+            </div>
+            <!-- Add Navigation Arrows -->
+            <div class="swiper-button-next" style="color: var(--primary-orange);"></div>
+            <div class="swiper-button-prev" style="color: var(--primary-orange);"></div>
+            <!-- Swiper Pagination -->
+            <div class="swiper-pagination" style="bottom: 1rem !important;"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h1 class="heading">
+            <span>c</span>
+            <span>o</span>
+            <span>n</span>
+            <span>t</span>
+            <span>a</span>
+            <span>c</span>
+            <span>t</span>
+        </h1>
+
+        <div class="row split-container">
+            <div class="image-column">
+                <img src="Mini-Images/Contact_section.jpeg" alt="Contact support helpline banner" class="planner-image">
+                <div class="glass-float-card bottom-card">
+                    <i class="fas fa-headset orange-text"></i>
+                    <div>
+                        <h4>24/7 Support Desk</h4>
+                        <p>We are here to assist you anytime, anywhere</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Form -->
+            <div class="form-column">
+                <form id="contact-form">
+                    <div class="form-header">
+                        <h3>Get In Touch</h3>
+                        <p>Send your queries, feedback, or custom requests directly to our travel specialists</p>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="inputbox half-width">
+                            <input type="text" id="contact-name" placeholder="Full Name" required>
+                        </div>
+                        <div class="inputbox half-width">
+                            <input type="email" id="contact-email" placeholder="Email Address" required>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="inputbox half-width">
+                            <input type="number" id="contact-number" placeholder="Mobile Number" required>
+                        </div>
+                        <div class="inputbox half-width">
+                            <input type="text" id="contact-subject" placeholder="Subject" required>
+                        </div>
+                    </div>
+
+                    <textarea id="contact-message" placeholder="Write your detailed message here..." cols="30" rows="6" required></textarea>
+                    
+                    <button type="submit" class="btn block-btn">
+                        <i class="fas fa-paper-plane"></i> Send Secure Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Slider Section -->
+    <section class="brand-container">
+        <div class="swiper brand-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="Mini-Images/b_1.jpeg" alt="Partner brand airlines logo"></div>
+                <div class="swiper-slide"><img src="Mini-Images/b_2.jpeg" alt="Partner hotel groups logo"></div>
+                <div class="swiper-slide"><img src="Mini-Images/b_3.jpeg" alt="Adventure accessories logo"></div>
+                <div class="swiper-slide"><img src="Mini-Images/b_4.jpeg" alt="Travel insurance group logo"></div>
+                <div class="swiper-slide"><img src="Mini-Images/b_5.jpeg" alt="Cruise line logo"></div>
+                <div class="swiper-slide"><img src="Mini-Images/b_6.jpeg" alt="Partner travel agencies"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer" id="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>About Us</h3>
+                <p>Avant-Garde Journeys is a premier, fully-licensed, award-winning travel consultancy. We specialize in bespoke individual itineraries, luxury adventure guides, and fully-managed premium vacation tours.</p>
+            </div>
+
+            <div class="box">
+                <h3>Branch Locations</h3>
+                <a href="#"><i class="fas fa-map-pin orange-text"></i> New Delhi, India</a>
+                <a href="#"><i class="fas fa-map-pin orange-text"></i> Tokyo, Japan</a>
+                <a href="#"><i class="fas fa-map-pin orange-text"></i> New York, USA</a>
+                <a href="#"><i class="fas fa-map-pin orange-text"></i> Paris, France</a>
+            </div>
+
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#home"><i class="fas fa-chevron-right orange-text"></i> Home</a>
+                <a href="#book"><i class="fas fa-chevron-right orange-text"></i> Book Now</a>
+                <a href="#packages"><i class="fas fa-chevron-right orange-text"></i> Itineraries</a>
+                <a href="#services"><i class="fas fa-chevron-right orange-text"></i> Services</a>
+                <a href="#gallery"><i class="fas fa-chevron-right orange-text"></i> Gallery</a>
+                <a href="#review"><i class="fas fa-chevron-right orange-text"></i> Reviews</a>
+                <a href="#contact"><i class="fas fa-chevron-right orange-text"></i> Contact</a>
+            </div>
+
+            <div class="box">
+                <h3>Follow Us</h3>
+                <a href="#"><i class="fab fa-facebook-f orange-text"></i> Facebook</a>
+                <a href="#"><i class="fab fa-instagram orange-text"></i> Instagram</a>
+                <a href="#"><i class="fab fa-twitter orange-text"></i> Twitter</a>
+                <a href="#"><i class="fab fa-linkedin-in orange-text"></i> LinkedIn</a>
+            </div>
+        </div>
+
+        <h1 class="credit">Created by <span class="designer-name">Tejax Web</span> | All rights reserved</h1>
+    </footer>
+
+    <!-- Package Details Modal -->
+    <div id="package-details-modal" class="modal-overlay hidden-section">
+        <div class="modal-content glass-card modal-large">
+            <span class="close-modal-btn" onclick="closePackageModal()">&times;</span>
+            <div id="pkg-modal-header" class="modal-header" style="text-align: center; border-bottom: none; padding-bottom: 1rem;">
+                <h2 id="pkg-modal-title" style="display: flex; align-items: center; justify-content: center; gap: 1rem;"><i class="fas fa-map-marker-alt orange-text"></i> Destination</h2>
+                <div class="pkg-tags" id="pkg-modal-tags" style="margin-top: 1rem;"></div>
+            </div>
+            <div class="pkg-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; background: #1a1a1a; padding: 2rem; border-radius: 1rem; border: 1px solid #333; margin-bottom: 2.5rem; text-align: center; align-items: center;">
+                <div>
+                    <div style="font-size: 1.2rem; color: #aaa; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Duration</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: #ffa500;" id="pkg-modal-duration">0 Days</div>
+                </div>
+                <div style="border-left: 1px solid #333; height: 100%;">
+                    <div style="font-size: 1.2rem; color: #aaa; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Start Date</div>
+                    <div style="font-size: 2.0rem; font-weight: bold; color: #ffa500;" id="pkg-modal-start">Auto</div>
+                </div>
+                <div style="border-left: 1px solid #333; height: 100%;">
+                    <div style="font-size: 1.2rem; color: #aaa; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">End Date</div>
+                    <div style="font-size: 2.0rem; font-weight: bold; color: #ffa500;" id="pkg-modal-end">Auto</div>
+                </div>
+                <div style="border-left: 1px solid #333; height: 100%;">
+                    <div style="font-size: 1.2rem; color: #aaa; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Cost per person</div>
+                    <div style="font-size: 2.0rem; font-weight: bold; color: #ffa500;" id="pkg-modal-cost">₹0</div>
+                </div>
+                <div style="border-left: 1px solid #333; height: 100%;">
+                    <div style="font-size: 1.2rem; color: #aaa; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Customer Rating</div>
+                    <div style="font-size: 2.0rem; font-weight: bold; color: #ffa500;" id="pkg-modal-rating">⭐ 4.8</div>
+                </div>
+            </div>
+            
+            <div class="modal-body-scrollable">
+                <!-- Overview -->
+                <div class="pkg-info-box">
+                    <h3><i class="fas fa-info-circle"></i> Overview</h3>
+                    <p id="pkg-modal-overview">Loading overview...</p>
+                </div>
+                
+                <div class="pkg-details-grid">
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-star"></i> Highlights</h3>
+                        <ul id="pkg-modal-highlights" class="custom-list"></ul>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-hotel"></i> Hotel Details</h3>
+                        <p id="pkg-modal-hotel">Loading...</p>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-bus"></i> Transportation</h3>
+                        <p id="pkg-modal-transport">Loading...</p>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-utensils"></i> Meal Plan</h3>
+                        <p id="pkg-modal-meals">Loading...</p>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-hiking"></i> Adventure Activities</h3>
+                        <ul id="pkg-modal-activities" class="custom-list"></ul>
+                    </div>
+                </div>
+
+                <div class="pkg-inclusion-grid">
+                    <div class="pkg-info-box success-box">
+                        <h3><i class="fas fa-check-circle"></i> Inclusions</h3>
+                        <ul id="pkg-modal-inclusions" class="custom-list check-list"></ul>
+                    </div>
+                    <div class="pkg-info-box danger-box">
+                        <h3><i class="fas fa-times-circle"></i> Exclusions</h3>
+                        <ul id="pkg-modal-exclusions" class="custom-list cross-list"></ul>
+                    </div>
+                </div>
+                
+                <div class="pkg-timeline-wrapper" style="margin-top: 3rem;">
+                    <h3 class="timeline-title"><i class="fas fa-calendar-day"></i> Day-wise Itinerary</h3>
+                    <div id="pkg-modal-timeline" class="pkg-timeline detailed-timeline"></div>
+                </div>
+                
+                <div class="pkg-policy-grid">
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-shield-alt"></i> Travel Insurance & Emergency</h3>
+                        <p id="pkg-modal-insurance"></p>
+                        <p id="pkg-modal-emergency"></p>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-cloud-sun"></i> Weather & Best Time</h3>
+                        <p id="pkg-modal-weather"></p>
+                    </div>
+                    <div class="pkg-info-box">
+                        <h3><i class="fas fa-file-contract"></i> Cancellation Policy</h3>
+                        <p id="pkg-modal-cancellation"></p>
+                    </div>
+                </div>
+
+                <!-- Package Reviews Section -->
+                <div class="pkg-info-box" style="margin-top: 3rem; background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); padding: 2.5rem; border-radius: 1.2rem;">
+                    <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;"><i class="fas fa-star orange-text"></i> Package Reviews & Testimonials</h3>
+                    <div id="pkg-modal-reviews-list" style="display: flex; flex-direction: column; gap: 1.5rem; max-height: 25rem; overflow-y: auto; padding-right: 1rem;">
+                        <!-- Will be populated dynamically by Javascript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer dual-buttons" style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
+                <button class="btn-reject" onclick="closePackageModal()">
+                    <i class="fas fa-times"></i> Reject Package
+                </button>
+                <button class="btn-accept" id="pkg-accept-btn" onclick="startBookingWizard()">
+                    <i class="fas fa-check"></i> Accept Package & Book
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Review Modal -->
+    <div id="add-review-modal" class="modal-overlay hidden-section">
+        <div class="modal-content glass-card" style="max-width: 550px !important; padding: 3rem !important;">
+            <span class="close-modal-btn" onclick="closeAddReviewModal()">&times;</span>
+            <form id="review-form">
+                <h3 id="review-form-title" style="font-size: 2.4rem; color: #fff; text-align: center; margin-bottom: 2.5rem; font-family: var(--font-heading);">Share Your Experience</h3>
+                
+                <div class="inputBox" style="margin-bottom: 2.5rem;">
+                    <label style="color: var(--muted-text); font-size: 1.4rem; margin-bottom: 0.8rem; display: block;">Your Rating</label>
+                    <div class="star-rating-selector" style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; font-size: 3rem;">
+                        <i class="far fa-star rating-star" data-value="1" style="cursor: pointer; color: var(--muted-text); transition: color 0.2s;"></i>
+                        <i class="far fa-star rating-star" data-value="2" style="cursor: pointer; color: var(--muted-text); transition: color 0.2s;"></i>
+                        <i class="far fa-star rating-star" data-value="3" style="cursor: pointer; color: var(--muted-text); transition: color 0.2s;"></i>
+                        <i class="far fa-star rating-star" data-value="4" style="cursor: pointer; color: var(--muted-text); transition: color 0.2s;"></i>
+                        <i class="far fa-star rating-star" data-value="5" style="cursor: pointer; color: var(--muted-text); transition: color 0.2s;"></i>
+                    </div>
+                    <input type="hidden" id="rating" value="5" required>
+                </div>
+                
+                <div class="inputBox" style="margin-bottom: 2.5rem;">
+                    <label style="color: var(--muted-text); font-size: 1.4rem; margin-bottom: 0.8rem; display: block;">Review Message</label>
+                    <textarea id="review_text" placeholder="Write your experience..." required style="width: 100%; height: 120px; resize: none;"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1.5rem; justify-content: center; width: 100%;">
+                    <input type="submit" class="btn" id="review-submit-btn" value="Submit Review" style="margin: 0; flex: 1;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddReviewModal()" style="margin: 0; flex: 1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Multi-Step Booking Wizard Modal -->
+    <div id="booking-wizard-modal" class="modal-overlay hidden-section">
+        <div class="modal-content glass-card modal-large">
+            <span class="close-modal-btn" onclick="closeBookingWizard()">&times;</span>
+            <div class="wizard-header">
+                <h2><i class="fas fa-plane-departure"></i> Complete Your Booking</h2>
+                <div class="wizard-progress">
+                    <div class="step active" id="step-1-indicator">1. Package</div>
+                    <div class="step" id="step-2-indicator">2. Traveller</div>
+                    <div class="step" id="step-3-indicator">3. Group</div>
+                    <div class="step" id="step-4-indicator">4. Price</div>
+                    <div class="step" id="step-5-indicator">5. Payment</div>
+                    <div class="step" id="step-6-indicator">6. Success</div>
+                </div>
+            </div>
+            <div class="wizard-body">
+                <!-- Step 1: Package Summary -->
+                <div class="wizard-step active" id="wizard-step-1">
+                    <h3>Confirm Selected Package</h3>
+                    <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
+                        <h4 id="wiz-pkg-title" style="font-size: 2.2rem; color: var(--primary-orange); margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> Goa Package</h4>
+                        <p id="wiz-pkg-overview" style="font-size: 1.5rem; color: var(--light-text); margin-bottom: 1.5rem; line-height: 1.6; text-transform:none;">Package overview details...</p>
+                        <div style="display: flex; gap: 3rem; font-size: 1.4rem; color: var(--muted-text);">
+                            <div><i class="fas fa-clock orange-text"></i> Duration: <strong id="wiz-pkg-duration" style="color: #fff;">5 Days</strong></div>
+                            <div><i class="fas fa-wallet orange-text"></i> Base Price: <strong id="wiz-pkg-cost" style="color: #fff;">₹6,999/person</strong></div>
+                        </div>
+                    </div>
+                    <div class="wizard-footer dual-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                        <button type="button" class="btn btn-secondary" onclick="closeBookingWizard()" style="margin: 0;"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn" onclick="nextWizardStep(2)" style="margin: 0;">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Traveler Info -->
+                <div class="wizard-step" id="wizard-step-2">
+                    <h3>Primary Traveler Information</h3>
+                    <form id="traveler-form" onsubmit="event.preventDefault(); nextWizardStep(3);">
+                        <div class="booking-form-grid">
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Full Name</label>
+                                <input type="text" id="wiz-name" placeholder="Enter Full Name" required>
+                            </div>
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Age</label>
+                                <input type="number" id="wiz-age" placeholder="Enter Age" min="1" max="120" required>
+                            </div>
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Gender</label>
+                                <select id="wiz-gender" required style="width:100%; padding:1.4rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size: 1.4rem;">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Email Address</label>
+                                <input type="email" id="wiz-email" placeholder="Email Address" required>
+                            </div>
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Phone / Mobile</label>
+                                <input type="text" id="wiz-mobile" placeholder="Mobile Number" required>
+                            </div>
+                            <div class="inputBox">
+                                <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">ID Proof (Passport / Aadhar)</label>
+                                <input type="text" id="wiz-idproof" placeholder="Passport / Aadhar Number" required>
+                            </div>
+                        </div>
+                        <div class="wizard-footer dual-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                            <button type="button" class="btn btn-secondary" onclick="prevWizardStep(1)" style="margin: 0;"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn" style="margin: 0;">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Step 3: Group Info -->
+                <div class="wizard-step" id="wizard-step-3">
+                    <h3>Group Members & Companions</h3>
+                    <form id="group-form" onsubmit="event.preventDefault(); calculatePriceSummary(); nextWizardStep(4);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                            <p style="color: var(--muted-text); font-size: 1.4rem;">Add details for each additional group member traveling with you.</p>
+                            <button type="button" class="btn btn-secondary" onclick="addCompanionMember()" style="width: auto; margin: 0; padding: 1rem 2rem;"><i class="fas fa-plus"></i> Add Member</button>
+                        </div>
+                        
+                        <!-- Companions dynamic list -->
+                        <div id="wiz-companions-list" style="margin-bottom: 2.5rem; max-height: 40vh; overflow-y: auto; padding-right: 1rem;">
+                            <!-- Dynamically generated companion inputs go here -->
+                        </div>
+                        
+                        <div class="wizard-footer dual-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                            <button type="button" class="btn btn-secondary" onclick="prevWizardStep(2)" style="margin: 0;"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn" style="margin: 0;">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Step 4: Price Summary -->
+                <div class="wizard-step" id="wizard-step-4">
+                    <h3>Dynamic Price Summary</h3>
+                    <div class="price-summary-box">
+                        <div class="price-row"><span>Package Base Cost (per person):</span> <strong id="sum-base-pp">₹0</strong></div>
+                        <div class="price-row"><span>Total Members:</span> <strong id="sum-members">1</strong></div>
+                        <div class="price-row"><span>Total Base Cost:</span> <strong id="sum-base-total">₹0</strong></div>
+                        <div class="price-row"><span>Taxes & GST (18%):</span> <strong id="sum-taxes">₹0</strong></div>
+                        <div class="price-row"><span>Service Charges:</span> <strong id="sum-service">₹500</strong></div>
+                        <div class="price-row" style="color: #2ed573;"><span>Discount Applied (10% Promo):</span> <strong id="sum-discount">-₹0</strong></div>
+                        <div class="price-row highlight-row" style="font-size:2rem; margin-top:2rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem;">
+                            <span>Final Amount Payable:</span> <strong id="sum-final" class="orange-text">₹0</strong>
+                        </div>
+                    </div>
+                    <div class="wizard-footer dual-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                        <button type="button" class="btn btn-secondary" onclick="prevWizardStep(3)" style="margin: 0;"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn confirm-pkg-btn" onclick="nextWizardStep(5)" style="margin: 0;">Proceed to Payment <i class="fas fa-credit-card"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Step 5: Secure Payment -->
+                <div class="wizard-step" id="wizard-step-5">
+                    <h3>Secure Payment Gateway</h3>
+                    <p style="margin-bottom: 2rem; color:var(--muted-text); font-size:1.4rem;">Select your preferred payment method</p>
+                    <form id="payment-form" onsubmit="event.preventDefault(); processPayment();">
+                        <div class="payment-methods" style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-bottom:2.5rem;">
+                            <label class="pay-method"><input type="radio" name="payment-type" value="UPI" checked onclick="togglePaymentFields('UPI')"> <i class="fas fa-mobile-alt"></i> UPI</label>
+                            <label class="pay-method"><input type="radio" name="payment-type" value="Debit Card" onclick="togglePaymentFields('Debit Card')"> <i class="fas fa-credit-card"></i> Debit Card</label>
+                            <label class="pay-method"><input type="radio" name="payment-type" value="Credit Card" onclick="togglePaymentFields('Credit Card')"> <i class="fas fa-credit-card"></i> Credit Card</label>
+                            <label class="pay-method"><input type="radio" name="payment-type" value="Net Banking" onclick="togglePaymentFields('Net Banking')"> <i class="fas fa-university"></i> Net Banking</label>
+                            <label class="pay-method"><input type="radio" name="payment-type" value="Wallet" onclick="togglePaymentFields('Wallet')"> <i class="fas fa-wallet"></i> Wallet</label>
+                        </div>
+                        
+                        <!-- Dynamic Details Form Container -->
+                        <div id="payment-details-container" style="background: rgba(0,0,0,0.15); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 3rem;">
+                            
+                            <!-- UPI Interface -->
+                            <div id="pay-details-upi" class="payment-fields-section">
+                                <div class="inputBox" style="margin-bottom: 1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">UPI ID</label>
+                                    <input type="text" id="pay-upi-id" placeholder="Enter UPI ID (e.g., username@okaxis)" style="width:100%;">
+                                </div>
+                                <div style="text-align: center; margin-top: 2rem;">
+                                    <p style="font-size: 1.3rem; color: var(--muted-text); margin-bottom: 1rem;">Or scan the QR code to pay instantly</p>
+                                    <div style="display: inline-block; padding: 1.5rem; background: #fff; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                                        <i class="fas fa-qrcode" style="font-size: 12rem; color: #121212;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Interface -->
+                            <div id="pay-details-card" class="payment-fields-section" style="display: none;">
+                                <div class="inputBox" style="margin-bottom: 1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Card Number</label>
+                                    <input type="text" id="pay-card-number" placeholder="Card Number (16 Digits)" maxlength="19">
+                                </div>
+                                <div class="inputBox" style="margin-bottom: 1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Cardholder Name</label>
+                                    <input type="text" id="pay-card-name" placeholder="Card Holder Name">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 0;">
+                                    <div class="inputBox" style="margin-bottom: 0;"><label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">Expiry Date</label><input type="text" id="pay-card-expiry" placeholder="MM/YY" maxlength="5"></div>
+                                    <div class="inputBox" style="margin-bottom: 0;"><label style="color:var(--muted-text); font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem; display:block;">CVV</label><input type="password" id="pay-card-cvv" placeholder="CVV" maxlength="3"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Net Banking Interface -->
+                            <div id="pay-details-netbanking" class="payment-fields-section" style="display: none;">
+                                <div class="inputBox" style="margin-bottom: 0;">
+                                    <label style="color: var(--muted-text); font-size: 1.3rem; font-weight:bold; margin-bottom: 0.8rem; display: block;">Choose your Bank</label>
+                                    <select id="pay-bank-select" style="width:100%; padding:1.4rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size: 1.4rem;">
+                                        <option value="">-- Select Bank --</option>
+                                        <option value="SBI">State Bank of India</option>
+                                        <option value="HDFC">HDFC Bank</option>
+                                        <option value="ICICI">ICICI Bank</option>
+                                        <option value="AXIS">Axis Bank</option>
+                                        <option value="KOTAK">Kotak Mahindra Bank</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Wallet Interface -->
+                            <div id="pay-details-wallet" class="payment-fields-section" style="display: none;">
+                                <label style="color: var(--muted-text); font-size: 1.3rem; font-weight:bold; margin-bottom: 1.5rem; display: block;">Select Wallet</label>
+                                <div style="display: flex; gap: 1.5rem; justify-content: space-around; flex-wrap: wrap;">
+                                    <label style="display: flex; align-items: center; gap: 1rem; font-size: 1.6rem; cursor: pointer; padding: 1.2rem 2rem; background: var(--charcoal-deep); border-radius: 0.8rem; border: 1px solid var(--glass-border); flex: 1; justify-content: center; min-width: 12rem;">
+                                        <input type="radio" name="wallet-provider" value="PhonePe" checked>
+                                        <span>PhonePe</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 1rem; font-size: 1.6rem; cursor: pointer; padding: 1.2rem 2rem; background: var(--charcoal-deep); border-radius: 0.8rem; border: 1px solid var(--glass-border); flex: 1; justify-content: center; min-width: 12rem;">
+                                        <input type="radio" name="wallet-provider" value="Google Pay">
+                                        <span>Google Pay</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 1rem; font-size: 1.6rem; cursor: pointer; padding: 1.2rem 2rem; background: var(--charcoal-deep); border-radius: 0.8rem; border: 1px solid var(--glass-border); flex: 1; justify-content: center; min-width: 12rem;">
+                                        <input type="radio" name="wallet-provider" value="Paytm">
+                                        <span>Paytm</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="wizard-footer dual-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                            <button type="button" class="btn btn-secondary" onclick="prevWizardStep(4)" style="margin: 0;"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn confirm-pkg-btn" style="margin: 0;"><i class="fas fa-lock"></i> Pay Now</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 6: Success Screen -->
+                <div class="wizard-step" id="wizard-step-6">
+                    <div class="success-screen" style="text-align:center;">
+                        <i class="fas fa-check-circle" style="font-size: 6rem; color: #2ed573; margin-bottom: 2rem;"></i>
+                        <h2 style="font-size: 3rem; margin-bottom: 1rem;">Booking Confirmed!</h2>
+                        <p style="font-size: 1.6rem; color: var(--muted-text); margin-bottom: 2rem;">Your premium travel experience is locked in.</p>
+                        
+                        <div class="booking-receipt" style="background:var(--charcoal-deep); border-radius:1rem; padding:2.5rem; margin:2.5rem auto; max-width:45rem; border:1px solid var(--glass-border); text-align: left;">
+                            <h4 style="font-size: 1.8rem; color: var(--primary-orange); border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem; margin-bottom: 1.5rem; text-align: center;">Booking Invoice</h4>
+                            <div style="display: flex; flex-direction: column; gap: 1.2rem; font-size: 1.5rem; color: var(--light-text);">
+                                <div style="display: flex; justify-content: space-between;"><strong>Booking ID:</strong> <span id="success-booking-id" class="orange-text" style="font-weight: bold;">BKG-...</span></div>
+                                <div style="display: flex; justify-content: space-between;"><strong>Package Name:</strong> <span id="success-pkg-name">...</span></div>
+                                <div style="display: flex; justify-content: space-between;"><strong>Travel Date:</strong> <span id="success-travel-date">...</span></div>
+                                <div style="display: flex; justify-content: space-between;"><strong>Members:</strong> <span id="success-members">1</span></div>
+                                <div style="display: flex; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1rem;"><strong>Amount Paid:</strong> <span id="success-amount" class="orange-text" style="font-weight: bold; font-size: 1.8rem;">₹0</span></div>
+                                <div style="display: flex; justify-content: space-between; font-size: 1.2rem; color: var(--muted-text);"><span>Transaction ID:</span> <span id="success-txn-id">TXN-...</span></div>
+                            </div>
+                        </div>
+
+                        <div class="dual-buttons" style="justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 3rem;">
+                            <button class="btn" onclick="closeBookingWizard(); openUserDashboard('my-bookings');"><i class="fas fa-eye"></i> View Booking</button>
+                            <button class="btn btn-secondary" onclick="downloadReceipt()"><i class="fas fa-download"></i> Download Receipt</button>
+                            <button class="btn btn-secondary" onclick="closeBookingWizard(); openUserDashboard();"><i class="fas fa-tachometer-alt"></i> Go To Dashboard</button>
+                        </div>
+                    </div> <!-- closes success-screen -->
+                </div> <!-- closes wizard-step-6 -->
+            </div> <!-- closes wizard-body -->
+        </div> <!-- closes modal-content -->
+    </div> <!-- closes booking-wizard-modal -->
+
+    <!-- Booking Details Modal -->
+    <div id="booking-details-modal" class="modal-overlay hidden-section" style="z-index: 100000 !important;">
+        <div class="modal-content glass-card" style="max-width: 500px !important; padding: 3rem !important;">
+            <span class="close-modal-btn" onclick="closeBookingDetailsModal()">&times;</span>
+            <h3 style="font-size: 2.2rem; color: var(--primary-orange); margin-bottom: 2rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem; font-family: var(--font-heading); text-transform:none;"><i class="fas fa-suitcase"></i> Booking Details</h3>
+            <div id="booking-details-content" style="font-size: 1.5rem; color: var(--light-text); display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Dynamically filled -->
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-secondary" onclick="closeBookingDetailsModal()" style="margin: 0; width: 100%;">Close Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard Modal -->
+    <div id="user-dashboard-modal" class="modal-overlay hidden-section">
+        <div class="modal-content glass-card modal-large dashboard-layout" style="display:flex; padding:0; overflow:hidden;">
+            <span class="close-modal-btn" style="z-index:10;" onclick="closeUserDashboard()">&times;</span>
+            <div class="dashboard-sidebar" style="width:28rem; background:rgba(0,0,0,0.3); border-right:1px solid var(--glass-border); padding:3rem 2rem;">
+                <div class="dash-profile" style="text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:2rem; margin-bottom:2rem;">
+                    <div class="profile-avatar" style="width:8rem; height:8rem; font-size:3rem; margin:0 auto 1rem; background: linear-gradient(135deg, var(--primary-orange), #ff6a00); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%;" id="dash-avatar">U</div>
+                    <h3 id="dash-name" style="font-size:2rem; color:#fff;">User Name</h3>
+                    <p id="dash-email" style="font-size:1.3rem; color:var(--muted-text); text-transform:none;">user@example.com</p>
+                </div>
+                <ul class="dash-nav" style="list-style:none; padding: 0;">
+                    <li class="active" id="tab-nav-profile" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('my-profile', this)"><i class="fas fa-user-circle"></i> My Profile</li>
+                    <li id="tab-nav-bookings" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('my-bookings', this)"><i class="fas fa-suitcase"></i> My Bookings</li>
+                    <li id="tab-nav-itineraries" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('my-itineraries', this)"><i class="fas fa-route"></i> AI Itineraries</li>
+                    <li id="tab-nav-reviews" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('my-reviews', this)"><i class="fas fa-star"></i> My Reviews</li>
+                    <li id="tab-nav-contacts" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('my-contacts', this)"><i class="fas fa-envelope"></i> My Contacts</li>
+                    <li id="tab-nav-notifications" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-bottom:0.5rem; color:var(--light-text);" onclick="switchDashTab('notifications', this)"><i class="fas fa-bell"></i> Notifications</li>
+                    <li id="tab-nav-logout" style="padding:1.5rem; font-size:1.6rem; cursor:pointer; border-radius:0.8rem; margin-top:3rem; color:#ff4757; border-top:1px solid rgba(255,255,255,0.08);" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                </ul>
+            </div>
+            <div class="dashboard-content" id="dashboard-content-area" style="flex:1; padding:4rem; max-height:80vh; overflow-y:auto;">
+                <!-- Tab: My Profile -->
+                <div class="dash-tab active" id="dash-tab-my-profile">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-user-circle orange-text"></i> My Personal Profile</h2>
+                    
+                    <!-- Dynamic Profile Summary Card -->
+                    <div class="glass-card" style="display:flex; align-items:center; gap:3rem; padding:2.5rem; border-radius:1rem; border:1px solid var(--glass-border); background:rgba(255,255,255,0.02); margin-bottom:3rem; flex-wrap:wrap; width:100%;">
+                        <div class="profile-avatar" style="width:10rem; height:10rem; font-size:4rem; background:linear-gradient(135deg, var(--primary-orange), #ff6a00); color:#fff; display:flex; align-items:center; justify-content:center; border-radius:50%; box-shadow: 0 4px 20px rgba(255, 165, 0, 0.4);" id="profile-details-avatar">U</div>
+                        <div style="flex:1; min-width:240px;">
+                            <h3 id="profile-details-name" style="font-size:2.4rem; color:#fff; margin-bottom:1rem; text-transform:none;">User Name</h3>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(22rem, 1fr)); gap:1.5rem; font-size:1.4rem; color:var(--light-text);">
+                                <div><i class="fas fa-envelope orange-text"></i> Email: <strong id="profile-details-email" style="color:#fff; text-transform:none;">user@example.com</strong></div>
+                                <div><i class="fas fa-phone orange-text"></i> Phone: <strong id="profile-details-phone" style="color:#fff;">+91 98765 43210</strong></div>
+                                <div><i class="fas fa-calendar-check orange-text"></i> Registered: <strong id="profile-details-regdate" style="color:#fff;">May 2026</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-wrap:wrap; gap:3rem;">
+                        <div class="glass-card" style="flex:1; min-width:30rem; padding:2.5rem; border-radius:1rem; border:1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <h3 style="font-size:1.8rem; margin-bottom:2rem; color: #fff;"><i class="fas fa-edit orange-text"></i> Update Information</h3>
+                            <form id="dash-profile-form" onsubmit="event.preventDefault(); saveProfileUpdate();">
+                                <div class="inputBox" style="margin-bottom:1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; margin-bottom: 0.5rem; display:block;">Full Name</label>
+                                    <input type="text" id="dash-profile-name" required style="width:100%; padding:1.2rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                </div>
+                                <div class="inputBox" style="margin-bottom:1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; margin-bottom: 0.5rem; display:block;">Phone Number</label>
+                                    <input type="text" id="dash-profile-phone" placeholder="Enter phone number" style="width:100%; padding:1.2rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                </div>
+                                <div class="inputBox" style="margin-bottom:2rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; margin-bottom: 0.5rem; display:block;">Email Address (Non-editable)</label>
+                                    <input type="email" id="dash-profile-email" disabled style="width:100%; padding:1.2rem; background:rgba(0,0,0,0.3); color:var(--muted-text); border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem; text-transform:none;">
+                                </div>
+                                <button type="submit" class="btn" style="margin:0;"><i class="fas fa-save"></i> Save Updates</button>
+                            </form>
+                        </div>
+                        <div class="glass-card" style="flex:1; min-width:30rem; padding:2.5rem; border-radius:1rem; border:1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <h3 style="font-size:1.8rem; margin-bottom:2rem; color: #fff;"><i class="fas fa-key orange-text"></i> Security & Password</h3>
+                            <form id="dash-password-form" onsubmit="event.preventDefault(); savePasswordUpdate();">
+                                <div class="inputBox" style="margin-bottom:1.5rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; margin-bottom: 0.5rem; display:block;">New Password</label>
+                                    <input type="password" id="dash-profile-pwd" placeholder="Enter new password" required style="width:100%; padding:1.2rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                </div>
+                                <div class="inputBox" style="margin-bottom:2rem;">
+                                    <label style="color:var(--muted-text); font-size:1.3rem; margin-bottom: 0.5rem; display:block;">Confirm Password</label>
+                                    <input type="password" id="dash-profile-pwd-confirm" placeholder="Confirm new password" required style="width:100%; padding:1.2rem; background:var(--charcoal-deep); color:#fff; border:1px solid var(--charcoal-light); border-radius:0.8rem; font-size:1.4rem;">
+                                </div>
+                                <button type="submit" class="btn" style="margin:0;"><i class="fas fa-lock"></i> Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: My Bookings -->
+                <div class="dash-tab" id="dash-tab-my-bookings" style="display:none;">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-suitcase-rolling orange-text"></i> My Bookings & Upcoming Trips</h2>
+                    <div class="dash-cards-container" id="dash-bookings-container">
+                        <p style="color:var(--muted-text); font-size:1.6rem;">Loading bookings...</p>
+                    </div>
+                </div>
+                
+                <!-- Tab: My AI Itineraries -->
+                <div class="dash-tab" id="dash-tab-my-itineraries" style="display:none;">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-map-marked-alt orange-text"></i> Saved AI Itineraries</h2>
+                    <div class="dash-cards-container" id="dash-itineraries-container">
+                        <p style="color:var(--muted-text); font-size:1.6rem;">Loading AI itineraries...</p>
+                    </div>
+                </div>
+
+                <!-- Tab: My Reviews -->
+                <div class="dash-tab" id="dash-tab-my-reviews" style="display:none;">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-star orange-text"></i> My Testimonials & Reviews</h2>
+                    <div class="dash-cards-container" id="dash-reviews-container">
+                        <p style="color:var(--muted-text); font-size:1.6rem;">Loading your reviews...</p>
+                    </div>
+                </div>
+
+                <!-- Tab: My Contacts -->
+                <div class="dash-tab" id="dash-tab-my-contacts" style="display:none;">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-envelope orange-text"></i> Sent Queries & Support Messages</h2>
+                    <div class="dash-cards-container" id="dash-contacts-container">
+                        <p style="color:var(--muted-text); font-size:1.6rem;">Loading queries...</p>
+                    </div>
+                </div>
+
+                <!-- Tab: Notifications -->
+                <div class="dash-tab" id="dash-tab-notifications" style="display:none;">
+                    <h2 style="font-size:2.8rem; margin-bottom:3rem; color: #fff;"><i class="fas fa-bell orange-text"></i> Notifications & Alerts</h2>
+                    <div class="dash-cards-container" id="dash-notifications-container" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <p style="color:var(--muted-text); font-size:1.6rem;">Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Travel Assistant FAB (Premium Dark Theme & Wired) -->
+    <div id="ai-chat-bubble" onclick="toggleAIChat()" style="position:fixed; bottom:3rem; right:3rem; width:6.5rem; height:6.5rem; border-radius:50%; background:#ffa500; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 8px 25px rgba(255,165,0,0.5); z-index:99999; transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <i class="fas fa-robot" style="font-size:2.8rem; color:#000;"></i>
+    </div>
+    
+    <div id="ai-chat-window" class="hidden-section" style="position:fixed; bottom:11rem; right:3rem; width:38rem; height:50rem; background:#111; border:1px solid rgba(255,255,255,0.08); border-radius:1.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:99999; display:flex; flex-direction:column; overflow:hidden; transition:all 0.3s ease;">
+        <!-- Header -->
+        <div style="background:#1e1e1e; padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:1rem;">
+                <div style="width:1.2rem; height:1.2rem; border-radius:50%; background:#2ed573; animation: pulse 2s infinite;"></div>
+                <div>
+                    <h3 style="font-size:1.6rem; color:#fff; font-weight:bold; margin:0;">AI Travel Buddy</h3>
+                    <small style="color:#aaa; font-size:1.1rem;">Online & Ready to Assist</small>
+                </div>
+            </div>
+            <i class="fas fa-times" onclick="toggleAIChat()" style="color:#aaa; font-size:1.6rem; cursor:pointer; transition:color 0.2s;" onmouseover="this.style.color='#ff4757'" onmouseout="this.style.color='#aaa'"></i>
+        </div>
+        
+        <!-- Messages Container -->
+        <div id="ai-chat-messages" style="flex:1; padding:1.5rem; overflow-y:auto; display:flex; flex-direction:column; gap:1.2rem;">
+            <!-- Welcome message -->
+            <div style="align-self:flex-start; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:1.2rem 1.5rem; border-radius:1.2rem; border-top-left-radius:0.2rem; max-width:85%; margin-bottom:1rem;">
+                <p style="font-size:1.3rem; color:#eee; margin:0; line-height:1.5; text-transform:none;">Hello! I'm your AI Travel Buddy. 🌍✈️<br><br>I can help you with:<br>• 🗺️ <strong>Suggesting destinations</strong><br>• 📅 <strong>Generating trip itineraries</strong><br>• 🏨 <strong>Explaining package highlights</strong><br>• 🛒 <strong>Booking assistance</strong><br><br>How can I help you plan your dream vacation today?</p>
+            </div>
+        </div>
+        
+        <!-- Quick suggestions -->
+        <div style="padding:1rem 1.5rem; display:flex; gap:0.8rem; overflow-x:auto; background:rgba(0,0,0,0.2); border-top:1px solid rgba(255,255,255,0.03);">
+            <button onclick="sendQuickMessage('Recommend a budget beach destination')" style="flex-shrink:0; background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.2); color:#ffa500; padding:0.6rem 1.2rem; border-radius:1.5rem; font-size:1.1rem; cursor:pointer; font-weight:500; transition:all 0.2s; white-space:nowrap;">🏖️ Budget Beach</button>
+            <button onclick="sendQuickMessage('Suggest a luxury tour package')" style="flex-shrink:0; background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.2); color:#ffa500; padding:0.6rem 1.2rem; border-radius:1.5rem; font-size:1.1rem; cursor:pointer; font-weight:500; transition:all 0.2s; white-space:nowrap;">👑 Luxury Package</button>
+            <button onclick="sendQuickMessage('Help me book Munnar')" style="flex-shrink:0; background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.2); color:#ffa500; padding:0.6rem 1.2rem; border-radius:1.5rem; font-size:1.1rem; cursor:pointer; font-weight:500; transition:all 0.2s; white-space:nowrap;">⛰️ Munnar Details</button>
+        </div>
+        
+        <!-- Input Area -->
+        <form id="ai-chat-form" onsubmit="handleAIChatSubmit(event)" style="padding:1.5rem; background:#1e1e1e; border-top:1px solid rgba(255,255,255,0.05); display:flex; gap:1rem;">
+            <input type="text" id="ai-chat-input" placeholder="Type a message..." required style="flex:1; padding:1.2rem 1.5rem; background:#111; color:#fff; border:1px solid rgba(255,255,255,0.08); border-radius:3rem; font-size:1.3rem; outline:none; transition:border-color 0.2s;">
+            <button type="submit" style="width:4.5rem; height:4.5rem; border-radius:50%; background:#ffa500; border:none; color:#000; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; box-shadow:0 4px 10px rgba(255,165,0,0.3); flex-shrink:0;">
+                <i class="fas fa-paper-plane" style="font-size:1.6rem; margin:0;"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Leaflet.js Map Script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Swiper.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- custom js files link -->
+    <script src="JS/navbar.js"></script>
+    <script src="JS/slider.js"></script>
+    <script src="JS/auth.js"></script>
+    <script src="JS/itinerary.js"></script>
+    <script src="JS/contact.js"></script>
+    <script src="JS/review.js"></script>
+    <script src="JS/activity.js"></script>
+    <script src="JS/booking.js"></script>
+
+</body>
+</html>
