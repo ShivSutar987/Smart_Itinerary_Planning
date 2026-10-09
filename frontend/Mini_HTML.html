@@ -21,6 +21,15 @@
     
     <!-- Custom Style -->
     <link rel="stylesheet" href="Mini_CSS.css">
+
+    <!-- Global API Base Detection for Localhost & Render Deployment -->
+    <script>
+        (function() {
+            var isLocal = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:");
+            var isDirectBackend = (window.location.port === "5000");
+            window.API_BASE = (isLocal && !isDirectBackend) ? "http://localhost:5000" : "";
+        })();
+    </script>
 </head>
 <body>
 
@@ -992,7 +1001,7 @@
             </div>
         </div>
 
-        <h1 class="credit">Created by <span class="designer-name">Tejax Web</span> | All rights reserved</h1>
+        <h1 class="credit">Created by <span class="designer-name">Web Developer</span> | All rights reserved</h1>
     </footer>
 
     <!-- Package Details Modal -->
@@ -1550,9 +1559,11 @@
 
     <!-- Global API Base Detection for Localhost & Render Deployment -->
     <script>
-        window.API_BASE = (window.location.hostname === "localhost" && window.location.port === "3000")
-            ? "http://localhost:5000"
-            : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
+        (function() {
+            var isLocal = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:");
+            var isDirectBackend = (window.location.port === "5000");
+            window.API_BASE = (isLocal && !isDirectBackend) ? "http://localhost:5000" : "";
+        })();
     </script>
 
     <!-- Leaflet.js Map Script -->

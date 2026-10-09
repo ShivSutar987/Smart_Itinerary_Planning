@@ -1,4 +1,8 @@
-const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
+const API_BASE = (typeof window.API_BASE !== "undefined" && window.API_BASE !== null)
+    ? window.API_BASE
+    : ((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:") && window.location.port !== "5000"
+        ? "http://localhost:5000"
+        : "");
 const reviewForm = document.querySelector("#review-form");
 
 // Submit Review (Add or Edit)
@@ -7,78 +11,65 @@ if (reviewForm) {
         e.preventDefault();
 
         const token = localStorage.getItem("token");
-        if (!token) {
+        if (!token || token === "undefined" || token === "null") {
             alert("Please Login First");
+            const loginForm = document.querySelector('.login-from-container');
+            if (loginForm) loginForm.classList.add('active');
             return;
         }
 
-        const rating = document.querySelector("#rating").value;
-        const review_text = document.querySelector("#review_text").value;
+        const ratingVal = document.querySelector("#rating").value;
+        const reviewTextVal = document.querySelector("#review_text").value;
 
-        // If editing an existing review, update it via PUT endpoint
-        if (window.currentEditingReviewId) {
-            try {
-                const response = await fetch(
-                    `${API_BASE}/api/reviews/update/${window.currentEditingReviewId}`,
-                    {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            rating,
-                            review_text
-                        })
-                    }
-                );
-
-                const data = await response.json();
-                if (data.success) {
-                    alert("Review updated successfully!");
-                    window.currentEditingReviewId = null;
-                    closeAddReviewModal();
-                    loadReviews();
-                    if (window.loadDashboardReviews) {
-                        window.loadDashboardReviews();
-                    }
-                } else {
-                    alert(data.message || "Failed to update review");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Review Update Failed");
-            }
+        if (!reviewTextVal || !reviewTextVal.trim()) {
+            alert("Please write your review experience before submitting.");
             return;
         }
 
-        // Add normal review
+        const payload = {
+            rating: parseFloat(ratingVal) || 5,
+            review_text: reviewTextVal.trim()
+        };
+
+        const isEditing = !!window.currentEditingReviewId;
+        const submitUrl = isEditing
+            ? `${API_BASE}/api/reviews/update/${window.currentEditingReviewId}`
+            : `${API_BASE}/api/reviews/add`;
+        const submitMethod = isEditing ? "PUT" : "POST";
+
         try {
-            const response = await fetch(
-                `${API_BASE}/api/reviews/add`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        rating,
-                        review_text
-                    })
-                }
-            );
+            const response = await fetch(submitUrl, {
+                method: submitMethod,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
 
-            const data = await response.json();
-            alert(data.message);
+            const data = await response.json().catch(() => ({}));
 
-            if (data.success) {
+            if (response.ok && data.success) {
+                alert(data.message || (isEditing ? "Review updated successfully!" : "Review added successfully!"));
+                window.currentEditingReviewId = null;
                 closeAddReviewModal();
                 loadReviews();
+                if (window.loadDashboardReviews) {
+                    window.loadDashboardReviews();
+                }
+            } else {
+                alert(data.message || "Review Submission Failed");
+                if (response.status === 401) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user_id");
+                    localStorage.removeItem("user_name");
+                    const loginForm = document.querySelector('.login-from-container');
+                    if (loginForm) loginForm.classList.add('active');
+                }
             }
         } catch (error) {
-            console.log(error);
-            alert("Review Add Failed");
+            console.error("Review Submit Error:", error);
+            alert("Review submission failed: Unable to connect to backend server. Make sure the backend server is running.");
         }
     });
 }
@@ -328,13 +319,15 @@ function toggleReadMore(link) {
 
 // Modal open/close controls
 function openAddReviewModal() {
+    window.currentEditingReviewId = null;
     const token = localStorage.getItem("token");
-    if (!token) {
+    if (!token || token === "undefined" || token === "null") {
         alert("Please Login First");
         const loginForm = document.querySelector('.login-from-container');
         if (loginForm) loginForm.classList.add('active');
         return;
     }
+    cancelEditReview();
     const modal = document.getElementById("add-review-modal");
     if (modal) {
         modal.classList.remove("hidden-section");

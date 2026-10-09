@@ -2,13 +2,27 @@ const db = require("../config/db");
 
 // Add Review
 const addReview = (req, res) => {
-
     const {
         rating,
         review_text
     } = req.body || {};
 
-    const user_id = req.user.id;
+    const user_id = req.user ? (req.user.id || req.user.user_id) : null;
+    if (!user_id) {
+        return res.status(401).json({
+            success: false,
+            message: "User authentication missing. Please login again."
+        });
+    }
+
+    if (!review_text || !review_text.trim()) {
+        return res.status(400).json({
+            success: false,
+            message: "Review text cannot be empty."
+        });
+    }
+
+    const cleanRating = parseFloat(rating) || 5.0;
 
     const query = `
         INSERT INTO reviews
@@ -25,31 +39,26 @@ const addReview = (req, res) => {
         query,
         [
             user_id,
-            rating,
-            review_text,
+            cleanRating,
+            review_text.trim(),
             "visible"
         ],
         (err, result) => {
-
             if (err) {
-
-                console.log(err);
-
+                console.error("ADD REVIEW ERROR:", err);
                 return res.status(500).json({
                     success: false,
-                    message: "Review Add Failed"
+                    message: "Review Add Failed",
+                    error: err.message
                 });
-
             }
 
             res.status(201).json({
                 success: true,
                 message: "Review Added Successfully"
             });
-
         }
     );
-
 };
 
 // Get All Reviews
