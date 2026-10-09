@@ -51,11 +51,16 @@ if (isExplicitMysql) {
     // ----------------------------------------------------
     isPostgres = true;
 
-    const host = process.env.DB_HOST || "dpg-db4l8dd9fdbs73fnibkg-a";
+    let host = process.env.DB_HOST || "dpg-db4l8dd9fdbs73fnibkg-a";
+    // If running locally outside Render network, route via Render's external proxy
+    if (process.env.RENDER !== "true" && host.startsWith("dpg-") && !host.includes(".")) {
+        host = `${host}.oregon-postgres.render.com`;
+    }
+
     const port = parseInt(process.env.DB_PORT || "5432", 10);
-    const user = process.env.DB_USER || "planning_user";
+    const user = process.env.DB_USER || "planning_qwmh_user";
     const password = process.env.DB_PASSWORD || "";
-    const database = process.env.DB_NAME || "planning";
+    const database = process.env.DB_NAME || "planning_qwmh";
     
     // Render PostgreSQL requires SSL for connections outside or inside the cloud
     const useSsl = process.env.DB_SSL === "false" ? false : { rejectUnauthorized: false };

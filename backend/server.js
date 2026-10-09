@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
 const cors = require("cors");
@@ -26,8 +27,6 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
 
 const app = express();
-
-const path = require("path");
 
 // Middleware
 app.use(cors());

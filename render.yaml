@@ -14,11 +14,11 @@ services:
       - key: DB_PORT
         value: "5432"
       - key: DB_USER
-        value: planning
+        value: planning_qwmh_user
       - key: DB_PASSWORD
         sync: false
       - key: DB_NAME
-        value: planning
+        value: planning_qwmh
       - key: DB_SSL
         value: "true"
       - key: JWT_SECRET

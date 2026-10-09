@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const { Pool } = require("pg");
 
 console.log("=== Testing Render PostgreSQL Connection ===");
@@ -13,11 +14,14 @@ if (rawUrl) {
         ssl: process.env.DB_SSL === "false" ? false : { rejectUnauthorized: false }
     };
 } else {
-    const host = process.env.DB_HOST || "dpg-db4l8dd9fdbs73fnibkg-a";
+    let host = process.env.DB_HOST || "dpg-db4l8dd9fdbs73fnibkg-a";
+    if (process.env.RENDER !== "true" && host.startsWith("dpg-") && !host.includes(".")) {
+        host = `${host}.oregon-postgres.render.com`;
+    }
     const port = parseInt(process.env.DB_PORT || "5432", 10);
-    const user = process.env.DB_USER || "planning_user";
+    const user = process.env.DB_USER || "planning_qwmh_user";
     const password = process.env.DB_PASSWORD || "";
-    const database = process.env.DB_NAME || "planning";
+    const database = process.env.DB_NAME || "planning_qwmh";
     const useSsl = process.env.DB_SSL === "false" ? false : { rejectUnauthorized: false };
 
     console.log(`Target Host: ${host}`);
