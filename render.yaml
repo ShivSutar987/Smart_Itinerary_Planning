@@ -10,14 +10,16 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_HOST
-        value: srv-db4k6inf3r2c739qvp1g
+        value: dpg-db4l8dd9fdbs73fnibkg-a
       - key: DB_PORT
-        value: "3306"
+        value: "5432"
       - key: DB_USER
-        value: root
+        value: planning
       - key: DB_PASSWORD
         sync: false
       - key: DB_NAME
-        value: travel_db
+        value: planning
+      - key: DB_SSL
+        value: "true"
       - key: JWT_SECRET
         generateValue: true
