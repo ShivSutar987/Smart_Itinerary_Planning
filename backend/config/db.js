@@ -1,14 +1,26 @@
 const mysql = require("mysql2");
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "Mysql@123",
-    database: process.env.DB_NAME || "travel_db",
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+const dbConfig = process.env.DATABASE_URL || process.env.MYSQL_URL
+    ? {
+        uri: process.env.DATABASE_URL || process.env.MYSQL_URL,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+        ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined
+    }
+    : {
+        host: process.env.DB_HOST || "srv-db4k6inf3r2c739qvp1g",
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+        user: process.env.DB_USER || "root",
+        password: process.env.DB_PASSWORD || "Mysql@123",
+        database: process.env.DB_NAME || "travel_db",
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+        ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined
+    };
+
+const pool = mysql.createPool(dbConfig);
 
 // Test connection and initialize tables
 pool.getConnection((err, conn) => {

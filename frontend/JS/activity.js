@@ -5,7 +5,7 @@ async function logUserActivity(activity_type, page_name, details) {
     if (!user_id) return;
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         await fetch(`${API_BASE}/api/activity/log`, {
             method: "POST",
             headers: {

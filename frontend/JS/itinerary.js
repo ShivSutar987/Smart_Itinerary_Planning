@@ -172,7 +172,7 @@ if (aiForm) {
         submitBtn.disabled = true;
 
         try {
-            const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+            const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
             const response = await fetch(`${API_BASE}/api/itinerary/generate`, {
                 method: "POST",
                 headers: {
@@ -323,7 +323,7 @@ async function loadItineraries() {
     itinerariesContainer.innerHTML = window.getSkeletonLoaderHTML ? window.getSkeletonLoaderHTML() : "<p style='color:var(--muted-text); font-size:1.6rem;'>Loading AI plans...</p>";
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/itinerary/my-plans`, {
             headers: {
                 Authorization: `Bearer ${token}`

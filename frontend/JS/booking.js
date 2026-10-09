@@ -456,7 +456,7 @@ function fillBooking(place) {
     const pkgReviewsList = document.getElementById('pkg-modal-reviews-list');
     if (pkgReviewsList) {
         pkgReviewsList.innerHTML = '<p style="color:var(--muted-text); font-size:1.4rem;">Loading reviews...</p>';
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         fetch(`${API_BASE}/api/reviews/all`)
             .then(res => res.json())
             .then(data => {
@@ -673,7 +673,7 @@ async function processPayment() {
     };
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/bookings/create`, {
             method: "POST",
             headers: {
@@ -773,7 +773,7 @@ async function loadDashboardBookings() {
     if (!token) return;
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const res = await fetch(`${API_BASE}/api/bookings/my-bookings`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -832,7 +832,7 @@ async function deleteBooking(id) {
 
     const token = localStorage.getItem("token");
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/bookings/delete/${id}`, {
             method: "DELETE",
             headers: {
@@ -861,7 +861,7 @@ async function updateBooking(id) {
 
     const token = localStorage.getItem("token");
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/bookings/update/${id}`, {
             method: "PUT",
             headers: {
@@ -1000,7 +1000,7 @@ async function loadDashboardReviews() {
     }
     
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/reviews/all`);
         const data = await response.json();
         if (data.reviews) {
@@ -1146,7 +1146,7 @@ async function loadDashboardContacts() {
 
     if (token) {
         try {
-            const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+            const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
             const response = await fetch(`${API_BASE}/api/contact/my-messages`, {
                 headers: { Authorization: `Bearer ${token}` }
             });

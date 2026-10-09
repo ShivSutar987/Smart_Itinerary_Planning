@@ -105,7 +105,7 @@ window.addEventListener("load", async () => {
 
     if (token) {
         try {
-            const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+            const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
             const res = await fetch(`${API_BASE}/api/users/profile`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -126,7 +126,7 @@ window.addEventListener("load", async () => {
     }
 });
 
-const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
 
 // ---------------- LOGIN USER ----------------
 const loginElement = document.querySelector("#login-form");
@@ -271,7 +271,7 @@ async function saveProfileUpdate() {
 
     if (token) {
         try {
-            const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+            const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
             const response = await fetch(`${API_BASE}/api/users/profile`, {
                 method: "PUT",
                 headers: {
@@ -346,7 +346,7 @@ async function savePasswordUpdate() {
     }
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(`${API_BASE}/api/users/change-password`, {
             method: "PUT",
             headers: {

@@ -30,7 +30,7 @@ contactForm.addEventListener(
         document.querySelector("#contact-message").value;
 
     try {
-        const API_BASE = window.location.protocol.startsWith("http") ? "" : "http://localhost:5000";
+        const API_BASE = (typeof window.API_BASE !== "undefined") ? window.API_BASE : (window.location.protocol.startsWith("http") ? "" : "http://localhost:5000");
         const response = await fetch(
             `${API_BASE}/api/contact/send`,
             {
